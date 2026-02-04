@@ -12,7 +12,7 @@
 body{
   margin:0;
   overflow:hidden;
-  background: radial-gradient(circle at center, #1a1a1a 0%, #000 70%);
+  background: radial-gradient(circle at center,#1a1a1a 0%,#000 70%);
 }
 
 .swiper{
@@ -42,12 +42,32 @@ model-viewer{
   border-radius:12px;
   font-size:14px;
   cursor:pointer;
-  opacity:0.85;
-  z-index:10;
+  opacity:0.9;
+  z-index:20;
 }
-#fsBtn:hover{
+
+.arrow{
+  position:fixed;
+  top:50%;
+  transform:translateY(-50%);
+  width:50px;
+  height:50px;
+  border-radius:50%;
+  border:1px solid #333;
+  background:#111;
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+  opacity:0.85;
+  z-index:20;
+}
+
+.arrow:hover{
   opacity:1;
 }
+
+#prev{ left:20px; }
+#next{ right:20px; }
 </style>
 </head>
 
@@ -102,24 +122,25 @@ model-viewer{
   </div>
 </div>
 
+<button id="prev" class="arrow">‹</button>
+<button id="next" class="arrow">›</button>
 <button id="fsBtn">Tam Ekran</button>
 
 <script>
-new Swiper('.swiper', {
-  direction:'horizontal',
-  grabCursor:true,
-  mousewheel:true
+const swiper = new Swiper('.swiper', {
+  allowTouchMove:false,
+  speed:600
 });
+
+document.getElementById('prev').onclick = () => swiper.slidePrev();
+document.getElementById('next').onclick = () => swiper.slideNext();
 
 const btn = document.getElementById("fsBtn");
 const viewer = document.getElementById("viewer");
 
 btn.onclick = () => {
-  if (!document.fullscreenElement) {
-    viewer.requestFullscreen();
-  } else {
-    document.exitFullscreen();
-  }
+  if (!document.fullscreenElement) viewer.requestFullscreen();
+  else document.exitFullscreen();
 };
 </script>
 
