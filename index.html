@@ -5,16 +5,32 @@
 
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
 <style>
 body{
   margin:0;
   overflow:hidden;
   background: radial-gradient(circle at center, #1a1a1a 0%, #000 70%);
 }
+
+.swiper{
+  width:100vw;
+  height:100vh;
+}
+
+.swiper-slide{
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
 model-viewer{
   width:100vw;
   height:100vh;
 }
+
 #fsBtn{
   position:fixed;
   bottom:20px;
@@ -27,38 +43,77 @@ model-viewer{
   font-size:14px;
   cursor:pointer;
   opacity:0.85;
+  z-index:10;
 }
-#fsBtn:hover{opacity:1;}
+#fsBtn:hover{
+  opacity:1;
+}
 </style>
 </head>
 
 <body>
 
-<model-viewer
-  id="viewer"
-  src="./urun.glb"
-  camera-controls
-  auto-rotate
-  rotation-per-second="10deg"
-  auto-rotate-delay="0"
-  min-camera-orbit="auto auto 0.40m"
-  max-camera-orbit="auto auto 0.65m"
-  environment-image="neutral"
-  exposure="1.0"
-  tone-mapping="aces"
-  shadow-intensity="0.8"
-  shadow-softness="1.6"
-  camera-orbit="28deg 76deg 0.48m"
-  field-of-view="20deg"
-  interaction-prompt="none"
-  loading="eager">
-</model-viewer>
+<div class="swiper">
+  <div class="swiper-wrapper">
+
+    <div class="swiper-slide">
+      <model-viewer
+        id="viewer"
+        src="./urun.glb"
+        camera-controls
+        auto-rotate
+        rotation-per-second="10deg"
+        auto-rotate-delay="0"
+        min-camera-orbit="auto auto 0.40m"
+        max-camera-orbit="auto auto 0.65m"
+        environment-image="neutral"
+        exposure="1.0"
+        tone-mapping="aces"
+        shadow-intensity="0.8"
+        shadow-softness="1.6"
+        camera-orbit="28deg 76deg 0.48m"
+        field-of-view="20deg"
+        interaction-prompt="none"
+        loading="eager">
+      </model-viewer>
+    </div>
+
+    <div class="swiper-slide">
+      <model-viewer
+        src="./urun1.glb"
+        camera-controls
+        auto-rotate
+        rotation-per-second="10deg"
+        auto-rotate-delay="0"
+        min-camera-orbit="auto auto 0.40m"
+        max-camera-orbit="auto auto 0.65m"
+        environment-image="neutral"
+        exposure="1.0"
+        tone-mapping="aces"
+        shadow-intensity="0.8"
+        shadow-softness="1.6"
+        camera-orbit="28deg 76deg 0.48m"
+        field-of-view="20deg"
+        interaction-prompt="none"
+        loading="eager">
+      </model-viewer>
+    </div>
+
+  </div>
+</div>
 
 <button id="fsBtn">Tam Ekran</button>
 
 <script>
+new Swiper('.swiper', {
+  direction:'horizontal',
+  grabCursor:true,
+  mousewheel:true
+});
+
 const btn = document.getElementById("fsBtn");
 const viewer = document.getElementById("viewer");
+
 btn.onclick = () => {
   if (!document.fullscreenElement) {
     viewer.requestFullscreen();
@@ -70,5 +125,3 @@ btn.onclick = () => {
 
 </body>
 </html>
-
-
