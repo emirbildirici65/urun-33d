@@ -100,6 +100,27 @@ model-viewer{
 
     <div class="swiper-slide">
       <model-viewer
+        src="./urun5.glb"
+        camera-controls
+        auto-rotate
+        rotation-per-second="10deg"
+        auto-rotate-delay="0"
+        min-camera-orbit="auto auto 0.70m"
+        max-camera-orbit="auto auto 1.2m"
+        environment-image="neutral"
+        exposure="1.0"
+        tone-mapping="aces"
+        shadow-intensity="0.8"
+        shadow-softness="1.6"
+        camera-orbit="28deg 76deg 0.75m"
+        field-of-view="22deg"
+        interaction-prompt="none"
+        loading="eager">
+      </model-viewer>
+    </div>
+
+    <div class="swiper-slide">
+      <model-viewer
         src="./urun1.glb"
         camera-controls
         auto-rotate
