@@ -43,6 +43,29 @@ model-viewer{
   letter-spacing:.4px;
   z-index:30;
   pointer-events:none;
+  perspective:800px;
+}
+
+.titleText{
+  transition: all .45s cubic-bezier(.22,.61,.36,1);
+}
+
+.title-out{
+  opacity:0;
+  transform: translateY(10px) scale(.95);
+  filter: blur(6px);
+}
+
+.title-in{
+  opacity:0;
+  transform: translateY(-10px) scale(1.05);
+  filter: blur(6px);
+}
+
+.title-show{
+  opacity:1;
+  transform: translateY(0) scale(1);
+  filter: blur(0);
 }
 
 #buyBtn{
@@ -103,7 +126,10 @@ model-viewer{
 
 <body>
 
-<div id="titleBox">AirPods Pro</div>
+<div id="titleBox">
+  <div id="titleText" class="titleText title-show">AirPods Pro</div>
+</div>
+
 <a id="buyBtn" href="https://www.awwaglobal.com" target="_blank">SATIN AL</a>
 
 <div class="swiper">
@@ -115,8 +141,6 @@ model-viewer{
         camera-controls auto-rotate rotation-per-second="10deg"
         min-camera-orbit="auto auto 0.40m"
         max-camera-orbit="auto auto 0.65m"
-        environment-image="neutral"
-        shadow-intensity="0.8"
         camera-orbit="28deg 76deg 0.48m"
         field-of-view="20deg">
       </model-viewer>
@@ -165,17 +189,35 @@ const titles = [
   "AirPods Pro",
   "AirPods Pro (2)",
   "AirPods Max",
-  "Watch Ultra 2"
+  "Apple Watch Ultra 2"
 ];
 
-const titleBox = document.getElementById("titleBox");
+const titleText = document.getElementById("titleText");
+
+function animateTitle(newText){
+  titleText.classList.remove("title-show");
+  titleText.classList.add("title-out");
+
+  setTimeout(()=>{
+    titleText.textContent = newText;
+    titleText.classList.remove("title-out");
+    titleText.classList.add("title-in");
+
+    requestAnimationFrame(()=>{
+      requestAnimationFrame(()=>{
+        titleText.classList.remove("title-in");
+        titleText.classList.add("title-show");
+      });
+    });
+  }, 220);
+}
 
 const swiper = new Swiper('.swiper', {
   allowTouchMove:false,
   speed:600,
   on:{
     slideChange: () => {
-      titleBox.textContent = titles[swiper.activeIndex];
+      animateTitle(titles[swiper.activeIndex]);
     }
   }
 });
@@ -194,4 +236,3 @@ btn.onclick = () => {
 
 </body>
 </html>
-
