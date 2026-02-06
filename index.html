@@ -16,10 +16,7 @@ body{
   font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
 }
 
-.swiper{
-  width:100vw;
-  height:100vh;
-}
+.swiper{ width:100vw; height:100vh; }
 
 .swiper-slide{
   display:flex;
@@ -177,6 +174,17 @@ model-viewer{
       </model-viewer>
     </div>
 
+    <div class="swiper-slide">
+      <model-viewer
+        src="./urun12.glb"
+        camera-controls auto-rotate rotation-per-second="10deg"
+        min-camera-orbit="auto auto 0.40m"
+        max-camera-orbit="auto auto 0.65m"
+        camera-orbit="28deg 76deg 0.65m"
+        field-of-view="20deg">
+      </model-viewer>
+    </div>
+
   </div>
 </div>
 
@@ -189,7 +197,8 @@ const titles = [
   "AirPods Pro",
   "AirPods Pro (2)",
   "AirPods Max",
-  "Watch Ultra 2"
+  "Watch Ultra 2",
+  "Klips Kulaklık"
 ];
 
 const titleText = document.getElementById("titleText");
@@ -236,5 +245,3 @@ btn.onclick = () => {
 
 </body>
 </html>
-
-
