@@ -135,6 +135,7 @@ model-viewer{
     <div class="swiper-slide">
       <model-viewer id="viewer"
         src="./urun.glb"
+        loading="eager"
         camera-controls auto-rotate rotation-per-second="10deg"
         min-camera-orbit="auto auto 0.40m"
         max-camera-orbit="auto auto 0.65m"
@@ -146,6 +147,7 @@ model-viewer{
     <div class="swiper-slide">
       <model-viewer
         src="./urun5.glb"
+        loading="lazy"
         scale="0.01 0.01 0.01"
         camera-controls auto-rotate
         min-camera-orbit="auto auto 0.30m"
@@ -157,6 +159,7 @@ model-viewer{
     <div class="swiper-slide">
       <model-viewer
         src="./urun1.glb"
+        loading="lazy"
         camera-controls auto-rotate
         min-camera-orbit="auto auto 0.70m"
         max-camera-orbit="auto auto 1.2m"
@@ -167,6 +170,7 @@ model-viewer{
     <div class="swiper-slide">
       <model-viewer
         src="./urun2.glb"
+        loading="lazy"
         camera-controls auto-rotate
         min-camera-orbit="auto auto 0.38m"
         max-camera-orbit="auto auto 0.60m"
@@ -176,17 +180,15 @@ model-viewer{
 
     <div class="swiper-slide">
       <model-viewer
-  src="./urun12.glb"
-  scale="0.06 0.06 0.06"
-  camera-controls
-  auto-rotate
-  rotation-per-second="10deg"
-  min-camera-orbit="auto auto 0.35m"
-  max-camera-orbit="auto auto 0.60m"
-  camera-orbit="28deg 76deg 0.45m"
-  field-of-view="20deg">
-</model-viewer>
-
+        src="./urun12.glb"
+        loading="lazy"
+        scale="0.06 0.06 0.06"
+        camera-controls auto-rotate rotation-per-second="10deg"
+        min-camera-orbit="auto auto 0.35m"
+        max-camera-orbit="auto auto 0.60m"
+        camera-orbit="28deg 76deg 0.45m"
+        field-of-view="20deg">
+      </model-viewer>
     </div>
 
   </div>
@@ -225,12 +227,22 @@ function animateTitle(newText){
   }, 220);
 }
 
+const viewers = document.querySelectorAll("model-viewer");
+
+function updateRotation(){
+  viewers.forEach((v,i)=>{
+    v.autoRotate = (i === swiper.activeIndex);
+  });
+}
+
 const swiper = new Swiper('.swiper', {
   allowTouchMove:false,
   speed:600,
   on:{
+    init: updateRotation,
     slideChange: () => {
       animateTitle(titles[swiper.activeIndex]);
+      updateRotation();
     }
   }
 });
@@ -249,8 +261,3 @@ btn.onclick = () => {
 
 </body>
 </html>
-
-
-
-
-
