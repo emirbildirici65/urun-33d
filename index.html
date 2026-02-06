@@ -101,19 +101,20 @@ model-viewer{
     <div class="swiper-slide">
       <model-viewer
         src="./urun5.glb"
+        scale="0.01 0.01 0.01"
         camera-controls
         auto-rotate
         rotation-per-second="10deg"
         auto-rotate-delay="0"
-        min-camera-orbit="auto auto 1.4m"
-        max-camera-orbit="auto auto 2.4m"
+        min-camera-orbit="auto auto 0.45m"
+        max-camera-orbit="auto auto 0.70m"
         environment-image="neutral"
         exposure="1.0"
         tone-mapping="aces"
         shadow-intensity="0.8"
         shadow-softness="1.6"
-        camera-orbit="28deg 76deg 1.8m"
-        field-of-view="24deg"
+        camera-orbit="28deg 76deg 0.55m"
+        field-of-view="20deg"
         interaction-prompt="none"
         loading="eager">
       </model-viewer>
@@ -188,4 +189,5 @@ btn.onclick = () => {
 
 </body>
 </html>
+
 
