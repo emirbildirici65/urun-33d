@@ -118,6 +118,32 @@ model-viewer{
 
 #prev{ left:20px; }
 #next{ right:20px; }
+
+@media (max-width:768px){
+
+  #titleBox{
+    left:50%;
+    top:80px;
+    transform:translateX(-50%);
+    font-size:18px;
+    text-align:center;
+  }
+
+  #buyBtn{
+    right:50%;
+    top:auto;
+    bottom:70px;
+    transform:translateX(50%);
+    font-size:13px;
+    padding:10px 22px;
+  }
+
+  .arrow{
+    width:40px;
+    height:40px;
+    font-size:18px;
+  }
+}
 </style>
 </head>
 
@@ -136,7 +162,9 @@ model-viewer{
       <model-viewer id="viewer"
         src="./urun.glb"
         loading="eager"
-        camera-controls auto-rotate rotation-per-second="10deg"
+        camera-controls
+        auto-rotate
+        rotation-per-second="10deg"
         min-camera-orbit="auto auto 0.40m"
         max-camera-orbit="auto auto 0.65m"
         camera-orbit="28deg 76deg 0.65m"
@@ -221,36 +249,35 @@ function animateTitle(newText){
     titleText.classList.add("title-in");
 
     requestAnimationFrame(()=>{
-      requestAnimationFrame(()=>{
-        titleText.classList.remove("title-in");
-        titleText.classList.add("title-show");
-      });
+      titleText.classList.remove("title-in");
+      titleText.classList.add("title-show");
     });
-  }, 220);
+  },220);
+}
+
+function updateRotation(){
+  viewers.forEach((v,i)=>{
+    if(i === swiper.activeIndex){
+      v.setAttribute("auto-rotate","");
+    }else{
+      v.removeAttribute("auto-rotate");
+    }
+  });
 }
 
 const swiper = new Swiper('.swiper', {
   allowTouchMove:false,
   speed:600,
   on:{
-    slideChange: () => {
-      animateTitle(titles[swiper.activeIndex]);
+    init(){
+      updateRotation();
+    },
+    slideChange(){
+      animateTitle(titles[this.activeIndex]);
       updateRotation();
     }
   }
 });
-
-function updateRotation(){
-  viewers.forEach((v,i)=>{
-    if(i === swiper.activeIndex){
-      v.setAttribute("auto-rotate","");
-    } else {
-      v.removeAttribute("auto-rotate");
-    }
-  });
-}
-
-updateRotation();
 
 document.getElementById('prev').onclick = () => swiper.slidePrev();
 document.getElementById('next').onclick = () => swiper.slideNext();
