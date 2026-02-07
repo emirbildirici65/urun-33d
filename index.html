@@ -37,32 +37,8 @@ model-viewer{
   color:#fff;
   font-size:30px;
   font-weight:600;
-  letter-spacing:.4px;
   z-index:30;
   pointer-events:none;
-  perspective:800px;
-}
-
-.titleText{
-  transition: all .45s cubic-bezier(.22,.61,.36,1);
-}
-
-.title-out{
-  opacity:0;
-  transform: translateY(10px) scale(.95);
-  filter: blur(6px);
-}
-
-.title-in{
-  opacity:0;
-  transform: translateY(-10px) scale(1.05);
-  filter: blur(6px);
-}
-
-.title-show{
-  opacity:1;
-  transform: translateY(0) scale(1);
-  filter: blur(0);
 }
 
 #buyBtn{
@@ -77,12 +53,7 @@ model-viewer{
   font-size:15px;
   font-weight:600;
   text-decoration:none;
-  transition:.25s;
   z-index:30;
-}
-
-#buyBtn:hover{
-  transform:translateY(-50%) scale(1.06);
 }
 
 #fsBtn{
@@ -94,9 +65,7 @@ model-viewer{
   border:1px solid #333;
   padding:10px 16px;
   border-radius:12px;
-  font-size:14px;
   cursor:pointer;
-  opacity:0.9;
   z-index:30;
 }
 
@@ -112,7 +81,6 @@ model-viewer{
   color:#fff;
   font-size:22px;
   cursor:pointer;
-  opacity:0.85;
   z-index:30;
 }
 
@@ -120,28 +88,20 @@ model-viewer{
 #next{ right:20px; }
 
 @media (max-width:768px){
-
   #titleBox{
     left:50%;
-    top:80px;
+    top:70px;
     transform:translateX(-50%);
     font-size:18px;
-    text-align:center;
   }
 
   #buyBtn{
     right:50%;
-    top:auto;
     bottom:70px;
+    top:auto;
     transform:translateX(50%);
     font-size:13px;
-    padding:10px 22px;
-  }
-
-  .arrow{
-    width:40px;
-    height:40px;
-    font-size:18px;
+    padding:10px 20px;
   }
 }
 </style>
@@ -150,7 +110,7 @@ model-viewer{
 <body>
 
 <div id="titleBox">
-  <div id="titleText" class="titleText title-show">AirPods Pro</div>
+  <div id="titleText">AirPods Pro</div>
 </div>
 
 <a id="buyBtn" href="https://www.awwaglobal.com" target="_blank">SATIN AL</a>
@@ -162,9 +122,7 @@ model-viewer{
       <model-viewer id="viewer"
         src="./urun.glb"
         loading="eager"
-        camera-controls
-        auto-rotate
-        rotation-per-second="10deg"
+        camera-controls auto-rotate rotation-per-second="10deg"
         min-camera-orbit="auto auto 0.40m"
         max-camera-orbit="auto auto 0.65m"
         camera-orbit="28deg 76deg 0.65m"
@@ -212,7 +170,6 @@ model-viewer{
         loading="lazy"
         scale="0.06 0.06 0.06"
         camera-controls
-        rotation-per-second="10deg"
         min-camera-orbit="auto auto 0.35m"
         max-camera-orbit="auto auto 0.60m"
         camera-orbit="28deg 76deg 0.45m"
@@ -239,21 +196,16 @@ const titles = [
 const titleText = document.getElementById("titleText");
 const viewers = document.querySelectorAll("model-viewer");
 
-function animateTitle(newText){
-  titleText.classList.remove("title-show");
-  titleText.classList.add("title-out");
-
-  setTimeout(()=>{
-    titleText.textContent = newText;
-    titleText.classList.remove("title-out");
-    titleText.classList.add("title-in");
-
-    requestAnimationFrame(()=>{
-      titleText.classList.remove("title-in");
-      titleText.classList.add("title-show");
-    });
-  },220);
-}
+const swiper = new Swiper('.swiper', {
+  allowTouchMove:false,
+  speed:600,
+  on:{
+    slideChange(){
+      titleText.textContent = titles[this.activeIndex];
+      updateRotation();
+    }
+  }
+});
 
 function updateRotation(){
   viewers.forEach((v,i)=>{
@@ -265,19 +217,7 @@ function updateRotation(){
   });
 }
 
-const swiper = new Swiper('.swiper', {
-  allowTouchMove:false,
-  speed:600,
-  on:{
-    init(){
-      updateRotation();
-    },
-    slideChange(){
-      animateTitle(titles[this.activeIndex]);
-      updateRotation();
-    }
-  }
-});
+updateRotation();
 
 document.getElementById('prev').onclick = () => swiper.slidePrev();
 document.getElementById('next').onclick = () => swiper.slideNext();
