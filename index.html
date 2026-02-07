@@ -149,7 +149,7 @@ model-viewer{
         src="./urun5.glb"
         loading="lazy"
         scale="0.01 0.01 0.01"
-        camera-controls auto-rotate
+        camera-controls
         min-camera-orbit="auto auto 0.30m"
         max-camera-orbit="auto auto 0.50m"
         camera-orbit="28deg 76deg 0.30m">
@@ -160,7 +160,7 @@ model-viewer{
       <model-viewer
         src="./urun1.glb"
         loading="lazy"
-        camera-controls auto-rotate
+        camera-controls
         min-camera-orbit="auto auto 0.70m"
         max-camera-orbit="auto auto 1.2m"
         camera-orbit="28deg 76deg 0.40m">
@@ -171,7 +171,7 @@ model-viewer{
       <model-viewer
         src="./urun2.glb"
         loading="lazy"
-        camera-controls auto-rotate
+        camera-controls
         min-camera-orbit="auto auto 0.38m"
         max-camera-orbit="auto auto 0.60m"
         camera-orbit="28deg 76deg 0.25m">
@@ -183,7 +183,8 @@ model-viewer{
         src="./urun12.glb"
         loading="lazy"
         scale="0.06 0.06 0.06"
-        camera-controls auto-rotate rotation-per-second="10deg"
+        camera-controls
+        rotation-per-second="10deg"
         min-camera-orbit="auto auto 0.35m"
         max-camera-orbit="auto auto 0.60m"
         camera-orbit="28deg 76deg 0.45m"
@@ -208,6 +209,7 @@ const titles = [
 ];
 
 const titleText = document.getElementById("titleText");
+const viewers = document.querySelectorAll("model-viewer");
 
 function animateTitle(newText){
   titleText.classList.remove("title-show");
@@ -227,25 +229,28 @@ function animateTitle(newText){
   }, 220);
 }
 
-const viewers = document.querySelectorAll("model-viewer");
-
-function updateRotation(){
-  viewers.forEach((v,i)=>{
-    v.autoRotate = (i === swiper.activeIndex);
-  });
-}
-
 const swiper = new Swiper('.swiper', {
   allowTouchMove:false,
   speed:600,
   on:{
-    init: updateRotation,
     slideChange: () => {
       animateTitle(titles[swiper.activeIndex]);
       updateRotation();
     }
   }
 });
+
+function updateRotation(){
+  viewers.forEach((v,i)=>{
+    if(i === swiper.activeIndex){
+      v.setAttribute("auto-rotate","");
+    } else {
+      v.removeAttribute("auto-rotate");
+    }
+  });
+}
+
+updateRotation();
 
 document.getElementById('prev').onclick = () => swiper.slidePrev();
 document.getElementById('next').onclick = () => swiper.slideNext();
